@@ -16,7 +16,7 @@ resource "aws_lb" "default" {
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.lb.id]
   subnets                    = var.subnet_ids
-  enable_deletion_protection = false
+  enable_deletion_protection = !var.in_development
 
   access_logs {
     bucket  = var.logging_bucket_id

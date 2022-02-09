@@ -8,6 +8,12 @@ variable "tf" {
   })
 }
 
+variable "in_development" {
+  description = "開発モード. LBの強制保護を無効にします."
+  type = bool
+  default = false
+}
+
 variable "vpc_id" {
   type = string
 }
