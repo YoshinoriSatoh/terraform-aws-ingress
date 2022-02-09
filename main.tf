@@ -7,8 +7,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  # LB名にアンダースコアが使用できないため、ハイフンに変換
-  lb_name = replace(var.tf.fullname, "_", "-")
+  lb_name = var.tf.fullname
 }
 
 resource "aws_lb" "default" {
