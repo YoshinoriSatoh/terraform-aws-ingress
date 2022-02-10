@@ -12,7 +12,7 @@ locals {
 
 resource "aws_lb" "default" {
   name                       = local.lb_name
-  internal                   = false
+  internal                   = var.internal
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.lb.id]
   subnets                    = var.subnet_ids

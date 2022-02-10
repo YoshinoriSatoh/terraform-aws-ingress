@@ -22,6 +22,11 @@ variable "subnet_ids" {
   type = list(string)
 }
 
+variable "internal" {
+  type = bool
+  default = false
+}
+
 variable "ingresses" {
   type = list(object({
     description = string
