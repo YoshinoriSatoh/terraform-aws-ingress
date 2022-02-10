@@ -34,6 +34,7 @@ variable "ingresses" {
     to_port     = number
     protocol    = string
     cidr_blocks = list(string)
+    security_group_id = string
   }))
   default = [
     {

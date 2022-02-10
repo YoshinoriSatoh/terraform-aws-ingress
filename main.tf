@@ -46,6 +46,7 @@ resource "aws_security_group_rule" "ingresses" {
       to_port     = ingress.to_port
       protocol    = ingress.protocol
       cidr_blocks = ingress.cidr_blocks
+      security_group_id = ingress.security_group_id
     }
   }
   type              = "ingress"
@@ -53,7 +54,8 @@ resource "aws_security_group_rule" "ingresses" {
   from_port         = each.value.from_port
   to_port           = each.value.to_port
   protocol          = each.value.protocol
-  cidr_blocks       = each.value.cidr_blocks
+  cidr_blocks       = each.value.cidr_blocks != null ? each.value.cidr_blocks : null
+  source_security_group_id = each.value.security_group_id != null ? each.value.security_group_id : null
   security_group_id = aws_security_group.lb.id
 }
 
