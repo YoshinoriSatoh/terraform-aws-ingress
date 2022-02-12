@@ -117,7 +117,7 @@ resource "aws_route53_health_check" "healthcheck" {
     for key, dns_record in var.dns_records : key => {
       name = dns_record.name
       health_check_path = dns_record.health_check_path
-      health_check.port = dns_record.health_check.port
+      health_check_port = dns_record.health_check.port
     }
   }
   fqdn                    = each.value.name == "" ? var.domain : "${each.value.name}.${var.domain}"
@@ -126,10 +126,10 @@ resource "aws_route53_health_check" "healthcheck" {
   resource_path           = each.value.health_check_path
   failure_threshold       = "5"
   request_interval        = "30"
-  cloudwatch_alarm_name   = "${local.fullname}-${each.value.name}-healthcheck"
+  cloudwatch_alarm_name   = "${var.tf.fullname}-${each.value.name}-healthcheck"
   cloudwatch_alarm_region = "us-east-1"
   tags = {
-    Name = "${local.fullname}-${each.value.name}"
+    Name = "${var.tf.fullname}-${each.value.name}"
   }
 }
 
@@ -140,7 +140,7 @@ resource "aws_cloudwatch_metric_alarm" "healthcheck" {
     }
   }
   provider            = aws.useast1
-  alarm_name          = "${local.fullname}-${each.value.name}-healthcheck"
+  alarm_name          = "${var.tf.fullname}-${each.value.name}-healthcheck"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "HealthCheckStatus"
@@ -148,7 +148,7 @@ resource "aws_cloudwatch_metric_alarm" "healthcheck" {
   period              = "60"
   statistic           = "Minimum"
   threshold           = "1"
-  alarm_description   = "This metric monitor ${local.service.fullname} ${each.value.name} url healthcheck"
+  alarm_description   = "This metric monitor ${var.tf.fullname} ${each.value.name} url healthcheck"
   alarm_actions       = [var.healthcheck_notification_topic_arn]
   ok_actions          = [var.healthcheck_notification_topic_arn]
   dimensions = {
