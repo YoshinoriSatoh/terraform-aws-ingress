@@ -152,6 +152,6 @@ resource "aws_cloudwatch_metric_alarm" "healthcheck" {
   alarm_actions       = [var.healthcheck_notification_topic_arn]
   ok_actions          = [var.healthcheck_notification_topic_arn]
   dimensions = {
-    HealthCheckId = aws_route53_health_check[each.key].healthcheck.id
+    HealthCheckId = aws_route53_health_check.healthcheck[each.key].id
   }
 }
