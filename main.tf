@@ -136,6 +136,7 @@ resource "aws_route53_health_check" "healthcheck" {
 resource "aws_cloudwatch_metric_alarm" "healthcheck" {
   for_each = {
     for key, dns_record in var.dns_records : key => {
+      key = key
       name = dns_record.name
     }
   }
