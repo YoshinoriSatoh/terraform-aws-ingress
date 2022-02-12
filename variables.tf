@@ -92,3 +92,7 @@ variable "certificate_arn" {
 variable "logging_bucket_id" {
   type = string
 }
+
+variable "healthcheck_notification_topic_arn" {
+  type = string
+}
