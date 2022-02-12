@@ -8,6 +8,10 @@ variable "tf" {
   })
 }
 
+variable "name" {
+  type = string 
+}
+
 variable "in_development" {
   description = "開発モード. LBの強制保護を無効にします."
   type        = bool
@@ -65,8 +69,15 @@ variable "domain" {
 }
 
 variable "dns_records" {
-  type    = list(string)
-  default = [""]
+  type    = list(object({
+    name = string
+    health_check = object({
+      path = string
+      port = number
+      type = string
+    })
+  }))
+  default = [{}]
 }
 
 variable "ssl_policy" {
