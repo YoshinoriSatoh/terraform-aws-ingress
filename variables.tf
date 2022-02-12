@@ -77,7 +77,7 @@ variable "dns_records" {
       type = string
     })
   }))
-  default = [{}]
+  default = []
 }
 
 variable "ssl_policy" {
