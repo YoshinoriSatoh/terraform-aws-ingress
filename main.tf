@@ -136,7 +136,6 @@ resource "aws_route53_health_check" "healthcheck" {
 resource "aws_cloudwatch_metric_alarm" "healthcheck" {
   for_each = {
     for key, dns_record in var.dns_records : key => {
-      key = key
       name = dns_record.name
     }
   }
@@ -153,6 +152,6 @@ resource "aws_cloudwatch_metric_alarm" "healthcheck" {
   alarm_actions       = [var.healthcheck_notification_topic_arn]
   ok_actions          = [var.healthcheck_notification_topic_arn]
   dimensions = {
-    HealthCheckId = aws_route53_health_check[key].healthcheck.id
+    HealthCheckId = aws_route53_health_check[each.key].healthcheck.id
   }
 }
