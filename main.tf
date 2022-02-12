@@ -54,7 +54,7 @@ resource "aws_security_group_rule" "ingresses" {
   from_port         = each.value.from_port
   to_port           = each.value.to_port
   protocol          = each.value.protocol
-  cidr_blocks       = each.value.cidr_blocks != null ? each.value.cidr_blocks : null
+  cidr_blocks       = length(each.value.cidr_blocks > 0) ? each.value.cidr_blocks : null
   source_security_group_id = each.value.security_group_id != null ? each.value.security_group_id : null
   security_group_id = aws_security_group.lb.id
 }
