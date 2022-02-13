@@ -116,14 +116,14 @@ resource "aws_route53_health_check" "healthcheck" {
   for_each = {
     for key, dns_record in var.dns_records : key => {
       name = dns_record.name
-      health_check_path = dns_record.health_check_path
+      health_check_path = dns_record.health_check.path
       health_check_port = dns_record.health_check.port
     }
   }
   fqdn                    = each.value.name == "" ? var.domain : "${each.value.name}.${var.domain}"
   port                    = each.value.health_check.port
   type                    = each.value.health_check.type
-  resource_path           = each.value.health_check_path
+  resource_path           = each.value.health_check.path
   failure_threshold       = "5"
   request_interval        = "30"
   cloudwatch_alarm_name   = "${var.tf.fullname}-${each.value.name}-healthcheck"
