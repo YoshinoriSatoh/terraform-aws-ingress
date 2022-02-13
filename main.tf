@@ -118,12 +118,13 @@ resource "aws_route53_health_check" "healthcheck" {
       name = dns_record.name
       health_check_path = dns_record.health_check.path
       health_check_port = dns_record.health_check.port
+      health_check_type = dns_record.health_check.type
     }
   }
   fqdn                    = each.value.name == "" ? var.domain : "${each.value.name}.${var.domain}"
-  port                    = each.value.health_check.port
-  type                    = each.value.health_check.type
-  resource_path           = each.value.health_check.path
+  port                    = each.value.health_check_port
+  type                    = each.value.health_check_type
+  resource_path           = each.value.health_check_path
   failure_threshold       = "5"
   request_interval        = "30"
   cloudwatch_alarm_name   = "${var.tf.fullname}-${each.value.name}-healthcheck"
