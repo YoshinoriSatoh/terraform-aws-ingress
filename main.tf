@@ -44,22 +44,22 @@ resource "aws_security_group" "lb" {
 resource "aws_security_group_rule" "ingresses" {
   for_each = {
     for key, ingress in var.ingresses : key => {
-      description = ingress.description
-      from_port   = ingress.from_port
-      to_port     = ingress.to_port
-      protocol    = ingress.protocol
-      cidr_blocks = ingress.cidr_blocks
+      description       = ingress.description
+      from_port         = ingress.from_port
+      to_port           = ingress.to_port
+      protocol          = ingress.protocol
+      cidr_blocks       = ingress.cidr_blocks
       security_group_id = ingress.security_group_id
     }
   }
-  type              = "ingress"
-  description       = each.value.description
-  from_port         = each.value.from_port
-  to_port           = each.value.to_port
-  protocol          = each.value.protocol
-  cidr_blocks       = length(each.value.cidr_blocks) > 0 ? each.value.cidr_blocks : null
+  type                     = "ingress"
+  description              = each.value.description
+  from_port                = each.value.from_port
+  to_port                  = each.value.to_port
+  protocol                 = each.value.protocol
+  cidr_blocks              = length(each.value.cidr_blocks) > 0 ? each.value.cidr_blocks : null
   source_security_group_id = each.value.security_group_id != "" ? each.value.security_group_id : null
-  security_group_id = aws_security_group.lb.id
+  security_group_id        = aws_security_group.lb.id
 }
 
 resource "aws_lb_listener" "http" {
@@ -115,7 +115,7 @@ resource "aws_route53_record" "a_records" {
 resource "aws_route53_health_check" "healthcheck" {
   for_each = {
     for key, dns_record in var.dns_records : key => {
-      name = dns_record.name
+      name              = dns_record.name
       health_check_path = dns_record.health_check.path
       health_check_port = dns_record.health_check.port
       health_check_type = dns_record.health_check.type

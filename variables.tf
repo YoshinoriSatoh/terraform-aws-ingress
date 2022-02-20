@@ -9,7 +9,7 @@ variable "tf" {
 }
 
 variable "name" {
-  type = string 
+  type = string
 }
 
 variable "in_development" {
@@ -27,34 +27,34 @@ variable "subnet_ids" {
 }
 
 variable "internal" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "ingresses" {
   type = list(object({
-    description = string
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    description       = string
+    from_port         = number
+    to_port           = number
+    protocol          = string
+    cidr_blocks       = list(string)
     security_group_id = string
   }))
   default = [
     {
-      description = "http (for redirect)"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      description       = "http (for redirect)"
+      from_port         = 80
+      to_port           = 80
+      protocol          = "tcp"
+      cidr_blocks       = ["0.0.0.0/0"]
       security_group_id = ""
     },
     {
-      description = "https production"
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      description       = "https production"
+      from_port         = 443
+      to_port           = 443
+      protocol          = "tcp"
+      cidr_blocks       = ["0.0.0.0/0"]
       security_group_id = ""
     }
   ]
@@ -69,7 +69,7 @@ variable "domain" {
 }
 
 variable "dns_records" {
-  type    = list(object({
+  type = list(object({
     name = string
     health_check = object({
       path = string
